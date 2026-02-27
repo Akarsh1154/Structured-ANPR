@@ -3,7 +3,7 @@ import cv2
 from ultralytics import YOLO
 
 # Updated to point exactly to your successful train3 results
-custom_path = r"C:\Users\ayush\runs\detect\train3\weights\best.pt"
+custom_path = r"C:\Users\ayush\OneDrive\Desktop\PROJECTS\MINOR PERSONAL PROJECT\Structured-ANPR\runs\detect\train3\weights\best.pt"
 
 if os.path.exists(custom_path):
     print(f"Success: Loading Custom Plate Detector from {custom_path}")
