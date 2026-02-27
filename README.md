@@ -1,23 +1,35 @@
-# 🚗 Structured-ANPR
+# Structured-ANPR: Automated License Plate Recognition System
 
-An end-to-end Automatic Number Plate Recognition (ANPR) system using YOLOv11 and PaddleOCR.
+A modular, end-to-end computer vision pipeline designed to detect, preprocess, and recognize vehicle license plates. This project integrates state-of-the-art deep learning models with advanced image processing to deliver high-accuracy OCR results even in non-ideal conditions.
 
-## 🌟 Overview
-This project detects vehicle license plates in images, cleans the detected region using computer vision techniques, and extracts the text with high accuracy.
+## 🚀 Key Features
+* **Precision Detection:** Custom-trained **YOLOv11** architecture for localized plate detection with localized padding.
+* **Intelligent Preprocessing:** Automated **deskewing**, **denoising**, and **bilinear rescaling** to normalize text orientation and clarity.
+* **Robust OCR:** Integrated with **PaddleOCR** for high-confidence alphanumeric character extraction.
+* **Interactive UI:** Streamlit-powered dashboard providing real-time visualization of the transformation pipeline.
 
-## 🛠️ Tech Stack
-* **Detector:** YOLOv11 (Ultralytics)
-* **OCR Engine:** PaddleOCR
-* **Image Processing:** OpenCV & NumPy
-* **Web UI:** Streamlit
+## 🛠️ Technical Architecture
 
-## ⚙️ How It Works
-1. **Detection:** A custom-trained **YOLOv11** model locates the plate and crops it with a 10px safety buffer.
-2. **Preprocessing:** The crop undergoes **rescaling**, **denoising**, and **deskewing** (auto-rotation up to 25°) to align text for the OCR.
-3. **Extraction:** **PaddleOCR** processes the cleaned image to return the alphanumeric plate number.
+### 1. Localization (YOLOv11)
+Utilizes a deep CNN to predict bounding boxes. The system applies a 10px safety buffer to ensure no character edge-clipping occurs during the cropping phase.
 
-## 🚀 Quick Start
+### 2. Image Optimization (OpenCV)
+To maximize OCR accuracy, the cropped plate undergoes:
+* **Median Blurring:** To eliminate digital noise.
+* **Geometric Deskewing:** Calculation of the minimum area rectangle to correct angular tilt (up to 25°).
+* **Interpolation:** Upscaling low-resolution crops using cubic interpolation.
 
-### 1. Installation
+### 3. Recognition (PaddleOCR)
+The refined image is passed to the PaddleOCR engine, which utilizes a CRNN (Convolutional Recurrent Neural Network) for sequence-based text recognition.
+
+## 📂 Project Structure
+* `model.py`: YOLOv11 inference and cropping logic.
+* `preprocessing.py`: Image restoration and geometric correction suite.
+* `ocrengine.py`: PaddleOCR implementation.
+* `main.py`: Streamlit-based web interface.
+
+## 🚦 Getting Started
+
+### Installation
 ```bash
-pip install ultralytics paddleocr paddlepaddle opencv-python streamlit numpy matplotlib
+pip install -r requirements.txt
