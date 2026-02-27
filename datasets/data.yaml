@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 1
+names: ['licence']
+
+roboflow:
+  workspace: akarshs-workspace-gq6dm
+  project: my-first-project-09j9y
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/akarshs-workspace-gq6dm/my-first-project-09j9y/dataset/1
