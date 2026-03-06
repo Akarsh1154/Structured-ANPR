@@ -125,26 +125,9 @@ python train.py
 
 Make sure your dataset is structured under the `datasets/` directory in YOLO-compatible format (images + labels).
 
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to open an issue or submit a pull request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/your-feature`)
-3. Commit your changes (`git commit -m 'Add some feature'`)
-4. Push to the branch (`git push origin feature/your-feature`)
-5. Open a Pull Request
-
----
 
 ## 📄 License
 
 This project is open-source. See the repository for license details.
 
 ---
-
-<div align="center">
-  Made with ❤️ by <a href="https://github.com/Akarsh1154">Akarsh1154</a>
-</div>
