@@ -1,35 +1,150 @@
-# Structured-ANPR: Automated License Plate Recognition System
+# 🚗 Structured-ANPR
+### Automated Number Plate Recognition System
 
-A modular, end-to-end computer vision pipeline designed to detect, preprocess, and recognize vehicle license plates. This project integrates state-of-the-art deep learning models with advanced image processing to deliver high-accuracy OCR results even in non-ideal conditions.
+A modular, production-ready end-to-end computer vision pipeline for detecting, preprocessing, and recognizing vehicle license plates. Built with **YOLOv11**, **OpenCV**, and **PaddleOCR**, it delivers high-accuracy OCR even under non-ideal imaging conditions.
 
-## 🚀 Key Features
-* **Precision Detection:** Custom-trained **YOLOv11** architecture for localized plate detection with localized padding.
-* **Intelligent Preprocessing:** Automated **deskewing**, **denoising**, and **bilinear rescaling** to normalize text orientation and clarity.
-* **Robust OCR:** Integrated with **PaddleOCR** for high-confidence alphanumeric character extraction.
-* **Interactive UI:** Streamlit-powered dashboard providing real-time visualization of the transformation pipeline.
+---
+
+## ✨ Features
+
+- 🎯 **Precision Detection** — Custom-trained YOLOv11 architecture for localized license plate detection with safety-buffered cropping
+- 🖼️ **Intelligent Preprocessing** — Automated deskewing, denoising, and bilinear rescaling to normalize text orientation and clarity
+- 🔤 **Robust OCR** — PaddleOCR integration for high-confidence alphanumeric character extraction using CRNN-based sequence recognition
+- 🖥️ **Interactive Dashboard** — Streamlit-powered UI providing real-time visualization of the full transformation pipeline
+
+---
 
 ## 🛠️ Technical Architecture
 
-### 1. Localization (YOLOv11)
-Utilizes a deep CNN to predict bounding boxes. The system applies a 10px safety buffer to ensure no character edge-clipping occurs during the cropping phase.
+The pipeline consists of three sequential stages:
 
-### 2. Image Optimization (OpenCV)
-To maximize OCR accuracy, the cropped plate undergoes:
-* **Median Blurring:** To eliminate digital noise.
-* **Geometric Deskewing:** Calculation of the minimum area rectangle to correct angular tilt (up to 25°).
-* **Interpolation:** Upscaling low-resolution crops using cubic interpolation.
+### 1. Localization — YOLOv11
+A deep CNN predicts bounding boxes around license plates in the input image. A **10px safety buffer** is applied around the detected region to prevent character edge-clipping during the crop phase.
 
-### 3. Recognition (PaddleOCR)
-The refined image is passed to the PaddleOCR engine, which utilizes a CRNN (Convolutional Recurrent Neural Network) for sequence-based text recognition.
+### 2. Image Optimization — OpenCV
+The cropped plate region undergoes a series of enhancement operations:
+- **Median Blurring** — Eliminates digital noise and sensor artifacts
+- **Geometric Deskewing** — Computes minimum-area bounding rectangle to correct angular tilt (up to ±25°)
+- **Cubic Interpolation** — Upscales low-resolution crops for better OCR input quality
 
-## 📂 Project Structure
-* `model.py`: YOLOv11 inference and cropping logic.
-* `preprocessing.py`: Image restoration and geometric correction suite.
-* `ocrengine.py`: PaddleOCR implementation.
-* `main.py`: Streamlit-based web interface.
+### 3. Recognition — PaddleOCR
+The restored plate image is passed to PaddleOCR, which uses a **CRNN (Convolutional Recurrent Neural Network)** for robust sequence-based text recognition and outputs the final plate string.
 
-## 🚦 Getting Started
+---
+
+## 📁 Project Structure
+```
+Structured-ANPR/
+│
+├── model.py            # YOLOv11 inference and plate cropping logic
+├── preprocessing.py    # Image restoration and geometric correction suite
+├── ocrengine.py        # PaddleOCR wrapper and text extraction
+├── app.py              # Streamlit web interface
+├── train.py            # Model training script
+│
+├── datasets/           # Training and evaluation datasets
+├── images/             # Sample input images
+├── runs/detect/        # YOLO detection run outputs
+│
+├── yolo11n.pt          # Pre-trained YOLOv11 model weights
+├── requirements.txt    # Python dependencies
+└── README.md
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Python 3.8+
+- pip
 
 ### Installation
 ```bash
+# Clone the repository
+git clone https://github.com/Akarsh1154/Structured-ANPR.git
+cd Structured-ANPR
+
+# Install dependencies
 pip install -r requirements.txt
+```
+
+### Running the App
+```bash
+streamlit run app.py
+```
+
+Open your browser and navigate to `http://localhost:8501` to access the interactive dashboard.
+
+---
+
+## 🔄 Pipeline Flow
+```
+Input Image
+     │
+     ▼
+┌─────────────┐
+│   YOLOv11   │  ──▶  Detects & crops license plate region
+└─────────────┘
+     │
+     ▼
+┌──────────────────┐
+│  OpenCV Pipeline │  ──▶  Denoise → Deskew → Upscale
+└──────────────────┘
+     │
+     ▼
+┌─────────────┐
+│  PaddleOCR  │  ──▶  Extracts alphanumeric plate text
+└─────────────┘
+     │
+     ▼
+  Plate Text Output
+```
+
+---
+
+## 🧰 Tech Stack
+
+| Component | Technology |
+|-----------|-----------|
+| Object Detection | YOLOv11 (Ultralytics) |
+| Image Processing | OpenCV |
+| OCR Engine | PaddleOCR |
+| Web Interface | Streamlit |
+| Language | Python 3 |
+
+---
+
+## 📊 Training Your Own Model
+
+To train a custom YOLOv11 model on your own dataset:
+```bash
+python train.py
+```
+
+Make sure your dataset is structured under the `datasets/` directory in YOLO-compatible format (images + labels).
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to open an issue or submit a pull request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/your-feature`)
+3. Commit your changes (`git commit -m 'Add some feature'`)
+4. Push to the branch (`git push origin feature/your-feature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is open-source. See the repository for license details.
+
+---
+
+<div align="center">
+  Made with ❤️ by <a href="https://github.com/Akarsh1154">Akarsh1154</a>
+</div>
